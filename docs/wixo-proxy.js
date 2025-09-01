@@ -1,26 +1,33 @@
-//* validate the file from https://devakswixodevstg.z23.web.core.windows.net/wixo-proxy.js */ 
+// WX Infra Proxy PAC File
+// Returns proxy or direct connection based on domain rules
 function FindProxyForURL(url, host) {
-  var DIRECT = 'DIRECT';
-  var PROXY = 'PROXY vpn.wixo.dev:9090;DIRECT';
+  var DIRECT = "DIRECT";
+  var PROXY = "PROXY vpn.wixo.dev:9090;DIRECT";
 
-  if (shExpMatch(host, 'singtelguest.singtel.com')) {
-      return DIRECT;
+  // Always connect directly for this domain
+  if (
+    typeof host === "string" &&
+    shExpMatch(host, "singtelguest.singtel.com")
+  ) {
+    return DIRECT;
   }
-  // Define the list of domains to redirect to the proxy
+
+  // Domains to use proxy for
   var domainsToProxy = [
-    '*.aws.singtel.com',
-    'empowersit.singtel.com',
-    'empoweruat.singtel.com',
-	  'myempowersit.singtel.com',
-	  'myempoweruat.singtel.com'
+    "*.aws.singtel.com",
+    "empowersit.singtel.com",
+    "empoweruat.singtel.com",
+    "myempowersit.singtel.com",
+    "myempoweruat.singtel.com",
   ];
 
-  // Use a regular for loop to iterate over the domainsToProxy array
+  // Proxy for listed domains
   for (var i = 0; i < domainsToProxy.length; i++) {
-    if (shExpMatch(host, domainsToProxy[i])) {
+    if (typeof host === "string" && shExpMatch(host, domainsToProxy[i])) {
       return PROXY;
     }
   }
-  // All other domains should connect directly without using a proxy
+
+  // Fallback: direct connection
   return DIRECT;
 }
