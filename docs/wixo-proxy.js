@@ -19,6 +19,8 @@ function FindProxyForURL(url, host) {
     "empoweruat.singtel.com",
     "myempowersit.singtel.com",
     "myempoweruat.singtel.com",
+    'cpempoweruat.singtel.com',
+		'cpempowersit.singtel.com'
   ];
 
   // Proxy for listed domains
